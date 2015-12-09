@@ -40,6 +40,7 @@ function Get-FgPolicy {
 		if ($Match) {
 			$Section = $true
 			Write-Verbose "Section started"
+			continue
 		}
 		
 		if ($Section) {
@@ -58,6 +59,7 @@ function Get-FgPolicy {
 			# Eval Parameters for this section
 			$EvalParams              = @{}
 			$EvalParams.StringToEval = $line
+			$EvalParams.LoopName     = 'fileloop'
 			
 			
 			# New Address Object
@@ -68,6 +70,7 @@ function Get-FgPolicy {
 				$NewObject.Number  = $Eval
 				$ReturnObject   += $NewObject
 				Write-Verbose "object created: $($NewObject.Number)"
+				continue
 			}
 			if ($NewObject) {
 				
@@ -79,6 +82,7 @@ function Get-FgPolicy {
 				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 				if ($Eval -eq "enable") {
 					$NewObject.Inbound = $true
+					continue
 				}
 				
 				# Outbound
@@ -86,6 +90,7 @@ function Get-FgPolicy {
 				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 				if ($Eval -eq "enable") {
 					$NewObject.Outbound = $true
+					continue
 				}
 				
 				# Disabled
@@ -93,6 +98,7 @@ function Get-FgPolicy {
 				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 				if ($Eval -eq "disable") {
 					$NewObject.Disabled = $true
+					continue
 				}
 				
 				# ProfileStatus
@@ -100,6 +106,7 @@ function Get-FgPolicy {
 				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 				if ($Eval -eq "enable") {
 					$NewObject.ProfileStatus = $true
+					continue
 				}
 				
 				# LogTraffic
@@ -107,6 +114,7 @@ function Get-FgPolicy {
 				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 				if ($Eval -eq "enable") {
 					$NewObject.LogTraffic = $true
+					continue
 				}
 				
 				# Nat
@@ -114,6 +122,23 @@ function Get-FgPolicy {
 				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 				if ($Eval -eq "enable") {
 					$NewObject.NatEnabled = $true
+					continue
+				}
+				
+				# NatInbound
+				$EvalParams.Regex          = [regex] "^\s+set\ natinbound\ (.+)"
+				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
+				if ($Eval -eq "enable") {
+					$NewObject.NatInbound = $true
+					continue
+				}
+				
+				# ProfileStatus
+				$EvalParams.Regex          = [regex] "^\s+set\ profile_status\ (.+)"
+				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
+				if ($Eval -eq "enable") {
+					$NewObject.ProfileStatus = $true
+					continue
 				}
 				
 				###########################################################################################
@@ -168,6 +193,12 @@ function Get-FgPolicy {
 				$EvalParams.Regex          = [regex] '^\s+set\ profile\ "(.+?)"'
 				$EvalParams.ObjectProperty = "Profile"
 				$Eval                      = HelperEvalRegex @EvalParams
+			}
+			
+			if ($line -match "^\s+next") {
+				continue
+			} else {
+				$line
 			}
 		} else {
 			continue

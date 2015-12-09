@@ -95,6 +95,27 @@ function Get-FgService {
 					}
 				}
 				
+				$EvalParams.Regex          = [regex] "^\s+set\ protocol\ (.+)"
+				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
+				if ($Eval) {
+					$ParentProtocol = $Eval
+				}
+				
+				if ($ParentProtocol) {
+					$EvalParams.Regex          = [regex] "^\s+set\ dstport\ (.+)"
+					$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
+					if ($Eval) {
+						$Port = $Eval
+						$Split = $Port.Split('-')
+						if ($Split[0] -eq $Split[1]) {
+							$Port = $Split[0]
+						}
+						$PortString = $ParentProtocol.ToLower()
+						$PortString += '/' + $Port
+						$NewObject.Value += $PortString
+					}
+				}
+				
 				###########################################################################################
 				# Regular Properties
 				

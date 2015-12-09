@@ -25,6 +25,7 @@ namespace FortiShell {
         public bool ProfileStatus;
         public bool LogTraffic;
         public bool NatEnabled;
+        public bool NatInbound;
         public string Profile;
     }
 }

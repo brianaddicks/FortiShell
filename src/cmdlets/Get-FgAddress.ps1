@@ -42,6 +42,7 @@ function Get-FgAddress {
 		if ($Match) {
 			$Section = $true
 			Write-Verbose "Section started"
+			continue
 		}
 		
 		if ($Section) {
