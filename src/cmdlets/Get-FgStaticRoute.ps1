@@ -62,11 +62,12 @@ function Get-FgStaticRoute {
 			
 			
 			# New Address Object
-			$EvalParams.Regex          = [regex] '^\s+edit\ "(.+?)"'
+			$EvalParams.Regex          = [regex] '^\s+edit\ (.+?)'
 			$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 			if ($Eval) {
 				$NewObject         = New-Object FortiShell.Route
 				$NewObject.Number  = $Eval
+				$NewObject.Type    = "static"
 				$ReturnObject     += $NewObject
 				Write-Verbose "object created: $($NewObject.Number)"
 			}
@@ -92,9 +93,14 @@ function Get-FgStaticRoute {
 				$EvalParams.ReturnGroupNum   = 1
 				$EvalParams.LoopName         = 'fileloop'
 					
-				# SourceInterface	
+				# SourceInterface
 				$EvalParams.Regex          = [regex] '^\s+set\ device\ "(.+?)"'
 				$EvalParams.ObjectProperty = "Interface"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# NextHop
+				$EvalParams.Regex          = [regex] '^\s+set\ gateway\ (.+)'
+				$EvalParams.ObjectProperty = "NextHop"
 				$Eval                      = HelperEvalRegex @EvalParams
 			}
 		} else {
