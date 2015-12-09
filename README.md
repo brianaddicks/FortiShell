@@ -1,2 +1,1 @@
 # FortiShell
-Fortigate Config Parser
