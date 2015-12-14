@@ -32,5 +32,7 @@ namespace FortiShell {
         public string Profile;
         public string Uuid;
         public string Comments;
+        public string TrafficShaper;
+        public string TrafficShaperReverse;
     }
 }

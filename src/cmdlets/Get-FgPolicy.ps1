@@ -16,8 +16,9 @@ function Get-FgPolicy {
 	$i          = 0 
 	$StopWatch  = [System.Diagnostics.Stopwatch]::StartNew() # used by Write-Progress so it doesn't slow the whole function down
 	
-	$ReturnObject = @()
-	$RuleCount    = 0
+	$ReturnObject     = @()
+	$RuleCount        = 0
+	$Global:Unmatched = @()
 	
 	:fileloop foreach ($line in $ShowSupportOutput) {
 		$i++
@@ -197,12 +198,27 @@ function Get-FgPolicy {
 				$EvalParams.Regex          = [regex] '^\s+set\ profile\ "(.+?)"'
 				$EvalParams.ObjectProperty = "Profile"
 				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# Uuid
+				$EvalParams.Regex          = [regex] '^\s+set\ uuid\ (.+)'
+				$EvalParams.ObjectProperty = "Uuid"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# TrafficShaper
+				$EvalParams.Regex          = [regex] '^\s+set\ traffic-shaper\ "(.+?)"'
+				$EvalParams.ObjectProperty = "TrafficShaper"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# TrafficShaperReverse
+				$EvalParams.Regex          = [regex] '^\s+set\ traffic-shaper-reverse\ "(.+?)"'
+				$EvalParams.ObjectProperty = "TrafficShaperReverse"
+				$Eval                      = HelperEvalRegex @EvalParams
 			}
 			
 			if ($line -match "^\s+next") {
 				continue
 			} else {
-				$line
+				$Global:Unmatched += $line
 			}
 		} else {
 			continue
