@@ -213,6 +213,11 @@ function Get-FgPolicy {
 				$EvalParams.Regex          = [regex] '^\s+set\ traffic-shaper-reverse\ "(.+?)"'
 				$EvalParams.ObjectProperty = "TrafficShaperReverse"
 				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# Comments
+				$EvalParams.Regex          = [regex] '^\s+set\ comments\ "(.+?)"'
+				$EvalParams.ObjectProperty = "Comments"
+				$Eval                      = HelperEvalRegex @EvalParams
 			}
 			
 			if ($line -match "^\s+next") {
