@@ -153,6 +153,28 @@ function Get-FgPolicy {
 					continue
 				}
 				
+				# Comments
+				$EvalParams.Regex          = [regex] '^\s+set\ comments\ "([^"]+)$'
+				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
+				if ($Eval) {
+					$MultilineComment = $Eval + "`r`n"
+					continue
+				}
+				
+				if ($MultilineComment) {
+					if ($line -match '"') {
+						$EvalParams.Regex   = [regex] '^([^"]+)"'
+						$Eval               = HelperEvalRegex @EvalParams -ReturnGroupNum 1
+						$MultilineComment  += $Eval + "`r`n"
+						$NewObject.Comments = $MultilineComment
+						$MultilineComment   = $null
+						continue
+					} else {
+						$MultilineComment += $line + "`r`n"
+						continue
+					}
+				}
+				
 				###########################################################################################
 				# Regular Properties
 				
@@ -165,21 +187,25 @@ function Get-FgPolicy {
 				$EvalParams.Regex          = [regex] '^\s+set\ srcintf\ "(.+?)"'
 				$EvalParams.ObjectProperty = "SourceInterface"
 				$Eval                      = HelperEvalRegex @EvalParams
+				$NewObject.Service         = $NewObject.Service -split '" "'
 				
-				# SourceInterface	
+				# DestinationInterface	
 				$EvalParams.Regex          = [regex] '^\s+set\ dstintf\ "(.+?)"'
 				$EvalParams.ObjectProperty = "DestinationInterface"
 				$Eval                      = HelperEvalRegex @EvalParams
+				$NewObject.Service         = $NewObject.Service -split '" "'
 				
 				# SourceAddress	
 				$EvalParams.Regex          = [regex] '^\s+set\ srcaddr\ "(.+?)"'
 				$EvalParams.ObjectProperty = "SourceAddress"
 				$Eval                      = HelperEvalRegex @EvalParams
+				$NewObject.Service         = $NewObject.Service -split '" "'
 				
 				# DestinationAddress
 				$EvalParams.Regex          = [regex] '^\s+set\ dstaddr\ "(.+?)"'
 				$EvalParams.ObjectProperty = "DestinationAddress"
 				$Eval                      = HelperEvalRegex @EvalParams
+				$NewObject.Service         = $NewObject.Service -split '" "'
 				
 				# Action	
 				$EvalParams.Regex          = [regex] '^\s+set\ action\ (.+)'
