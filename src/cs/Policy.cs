@@ -13,11 +13,11 @@ namespace FortiShell {
         public int Edit;
         public int Number;
         
-        public string SourceInterface;
-        public string DestinationInterface;
+        public List<string> SourceInterface;
+        public List<string> DestinationInterface;
         
-        public string SourceAddress;
-        public string DestinationAddress;
+        public List<string> SourceAddress;
+        public List<string> DestinationAddress;
         public string Action;
         public string Schedule;
         public List<string> Service;

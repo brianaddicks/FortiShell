@@ -184,28 +184,28 @@ function Get-FgPolicy {
 				$EvalParams.LoopName         = 'fileloop'
 				
 				# SourceInterface	
-				$EvalParams.Regex          = [regex] '^\s+set\ srcintf\ "(.+?)"'
+				$EvalParams.Regex          = [regex] '^\s+set\ srcintf\ "(.+)"'
 				$EvalParams.ObjectProperty = "SourceInterface"
 				$Eval                      = HelperEvalRegex @EvalParams
-				$NewObject.Service         = $NewObject.Service -split '" "'
+				$NewObject."$($EvalParams.ObjectProperty)" = $NewObject."$($EvalParams.ObjectProperty)" -split '" "'
 				
 				# DestinationInterface	
-				$EvalParams.Regex          = [regex] '^\s+set\ dstintf\ "(.+?)"'
+				$EvalParams.Regex          = [regex] '^\s+set\ dstintf\ "(.+)"'
 				$EvalParams.ObjectProperty = "DestinationInterface"
 				$Eval                      = HelperEvalRegex @EvalParams
-				$NewObject.Service         = $NewObject.Service -split '" "'
+				$NewObject."$($EvalParams.ObjectProperty)" = $NewObject."$($EvalParams.ObjectProperty)" -split '" "'
 				
 				# SourceAddress	
-				$EvalParams.Regex          = [regex] '^\s+set\ srcaddr\ "(.+?)"'
+				$EvalParams.Regex          = [regex] '^\s+set\ srcaddr\ "(.+)"'
 				$EvalParams.ObjectProperty = "SourceAddress"
 				$Eval                      = HelperEvalRegex @EvalParams
-				$NewObject.Service         = $NewObject.Service -split '" "'
+				$NewObject."$($EvalParams.ObjectProperty)" = $NewObject."$($EvalParams.ObjectProperty)" -split '" "'
 				
 				# DestinationAddress
-				$EvalParams.Regex          = [regex] '^\s+set\ dstaddr\ "(.+?)"'
+				$EvalParams.Regex          = [regex] '^\s+set\ dstaddr\ "(.+)"'
 				$EvalParams.ObjectProperty = "DestinationAddress"
 				$Eval                      = HelperEvalRegex @EvalParams
-				$NewObject.Service         = $NewObject.Service -split '" "'
+				$NewObject."$($EvalParams.ObjectProperty)" = $NewObject."$($EvalParams.ObjectProperty)" -split '" "'
 				
 				# Action	
 				$EvalParams.Regex          = [regex] '^\s+set\ action\ (.+)'
