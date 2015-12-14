@@ -256,6 +256,21 @@ function Get-FgPolicy {
 				$EvalParams.Regex          = [regex] '^\s+set\ profile-protocol-options\ "(.+?)"'
 				$EvalParams.ObjectProperty = "ProfileProtocolOptions"
 				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# ApplicationList
+				$EvalParams.Regex          = [regex] '^\s+set\ application-list\ "(.+?)"'
+				$EvalParams.ObjectProperty = "ApplicationList"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# AvProfile
+				$EvalParams.Regex          = [regex] '^\s+set\ av-profile\ "(.+?)"'
+				$EvalParams.ObjectProperty = "AvProfile"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# DlpSensor
+				$EvalParams.Regex          = [regex] '^\s+set\ dlp-sensor\ "(.+?)"'
+				$EvalParams.ObjectProperty = "DlpSensor"
+				$Eval                      = HelperEvalRegex @EvalParams
 			}
 			
 			if ($line -match "^\s+next") {
