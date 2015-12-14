@@ -12,5 +12,7 @@ namespace FortiShell {
     public class Service {
 		public string Name;
 		public List<string> Value;
+		public string Comment;
+		public string Category;
     }
 }

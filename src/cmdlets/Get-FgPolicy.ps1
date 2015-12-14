@@ -17,6 +17,7 @@ function Get-FgPolicy {
 	$StopWatch  = [System.Diagnostics.Stopwatch]::StartNew() # used by Write-Progress so it doesn't slow the whole function down
 	
 	$ReturnObject = @()
+	$RuleCount    = 0
 	
 	:fileloop foreach ($line in $ShowSupportOutput) {
 		$i++
@@ -66,9 +67,11 @@ function Get-FgPolicy {
 			$EvalParams.Regex          = [regex] '^\s+edit\ (\d+)'
 			$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 			if ($Eval) {
-				$NewObject       = New-Object FortiShell.Policy
-				$NewObject.Number  = $Eval
-				$ReturnObject   += $NewObject
+				$RuleCount++
+				$NewObject        = New-Object FortiShell.Policy
+				$NewObject.Edit   = $Eval
+				$NewObject.Number = $RuleCount
+				$ReturnObject    += $NewObject
 				Write-Verbose "object created: $($NewObject.Number)"
 				continue
 			}
@@ -180,9 +183,10 @@ function Get-FgPolicy {
 				$Eval                      = HelperEvalRegex @EvalParams
 				
 				# Service
-				$EvalParams.Regex          = [regex] '^\s+set\ service\ "(.+?)"'
+				$EvalParams.Regex          = [regex] '^\s+set\ service\ "(.+)"'
 				$EvalParams.ObjectProperty = "Service"
 				$Eval                      = HelperEvalRegex @EvalParams
+				$NewObject.Service         = $NewObject.Service -split '" "'
 				
 				# VpnTunnel
 				$EvalParams.Regex          = [regex] '^\s+set\ vpntunnel\ "(.+?)"'

@@ -10,14 +10,17 @@ using System.Web;
 namespace FortiShell {
 	
     public class Policy {
+        public int Edit;
         public int Number;
+        
         public string SourceInterface;
         public string DestinationInterface;
+        
         public string SourceAddress;
         public string DestinationAddress;
         public string Action;
         public string Schedule;
-        public string Service;
+        public List<string> Service;
         public bool Inbound;
         public bool Outbound;
         public string VpnTunnel;
@@ -27,5 +30,7 @@ namespace FortiShell {
         public bool NatEnabled;
         public bool NatInbound;
         public string Profile;
+        public string Uuid;
+        public string Comments;
     }
 }

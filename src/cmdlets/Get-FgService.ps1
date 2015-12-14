@@ -123,6 +123,16 @@ function Get-FgService {
 				$EvalParams.VariableToUpdate = ([REF]$NewObject)
 				$EvalParams.ReturnGroupNum   = 1
 				$EvalParams.LoopName         = 'fileloop'
+					
+				# Category
+				$EvalParams.ObjectProperty = "Category"
+				$EvalParams.Regex          = [regex] '^\s+set\ category\ "(.+?)"'
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# Comment
+				$EvalParams.ObjectProperty = "Comment"
+				$EvalParams.Regex          = [regex] '^\s+set\ comment\ "(.+?)"'
+				$Eval                      = HelperEvalRegex @EvalParams
 			}
 		} else {
 			continue
