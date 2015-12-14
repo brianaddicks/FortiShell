@@ -40,5 +40,10 @@ namespace FortiShell {
         public string VoipProfile;
         public string SslSshProfile;
         public string SpamFilterProfile;
+        public string ProfileProtocolOptions;
+        
+        public string IpsSensor;
+        public bool UtmStatus;
+        
     }
 }

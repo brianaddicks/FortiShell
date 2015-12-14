@@ -116,7 +116,7 @@ function Get-FgPolicy {
 				# LogTraffic
 				$EvalParams.Regex          = [regex] "^\s+set\ logtraffic\ (.+)"
 				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
-				if ($Eval -eq "enable") {
+				if (($Eval -eq "enable") -or ($Eval -eq "all")) {
 					$NewObject.LogTraffic = $true
 					continue
 				}
@@ -142,6 +142,14 @@ function Get-FgPolicy {
 				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
 				if ($Eval -eq "enable") {
 					$NewObject.ProfileStatus = $true
+					continue
+				}
+				
+				# ProfileStatus
+				$EvalParams.Regex          = [regex] "^\s+set\ utm-status\ (.+)"
+				$Eval                      = HelperEvalRegex @EvalParams -ReturnGroupNum 1
+				if ($Eval -eq "enable") {
+					$NewObject.UtmStatus = $true
 					continue
 				}
 				
@@ -237,6 +245,16 @@ function Get-FgPolicy {
 				# SpamFilterProfile
 				$EvalParams.Regex          = [regex] '^\s+set\ spamfilter-profile\ "(.+?)"'
 				$EvalParams.ObjectProperty = "SpamFilterProfile"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# IpsSensor
+				$EvalParams.Regex          = [regex] '^\s+set\ ips-sensor\ "(.+?)"'
+				$EvalParams.ObjectProperty = "IpsSensor"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# ProfileProtocolOptions
+				$EvalParams.Regex          = [regex] '^\s+set\ profile-protocol-options\ "(.+?)"'
+				$EvalParams.ObjectProperty = "ProfileProtocolOptions"
 				$Eval                      = HelperEvalRegex @EvalParams
 			}
 			
