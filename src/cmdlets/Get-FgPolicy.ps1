@@ -218,6 +218,26 @@ function Get-FgPolicy {
 				$EvalParams.Regex          = [regex] '^\s+set\ comments\ "(.+?)"'
 				$EvalParams.ObjectProperty = "Comments"
 				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# WebFilterProfile
+				$EvalParams.Regex          = [regex] '^\s+set\ webfilter-profile\ "(.+?)"'
+				$EvalParams.ObjectProperty = "WebFilterProfile"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# VoipProfile
+				$EvalParams.Regex          = [regex] '^\s+set\ voip-profile\ "(.+?)"'
+				$EvalParams.ObjectProperty = "VoipProfile"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# SslSshProfile
+				$EvalParams.Regex          = [regex] '^\s+set\ ssl-ssh-profile\ "(.+?)"'
+				$EvalParams.ObjectProperty = "SslSshProfile"
+				$Eval                      = HelperEvalRegex @EvalParams
+				
+				# SpamFilterProfile
+				$EvalParams.Regex          = [regex] '^\s+set\ spamfilter-profile\ "(.+?)"'
+				$EvalParams.ObjectProperty = "SpamFilterProfile"
+				$Eval                      = HelperEvalRegex @EvalParams
 			}
 			
 			if ($line -match "^\s+next") {

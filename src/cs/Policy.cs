@@ -32,7 +32,13 @@ namespace FortiShell {
         public string Profile;
         public string Uuid;
         public string Comments;
+        
         public string TrafficShaper;
         public string TrafficShaperReverse;
+        
+        public string WebFilterProfile;
+        public string VoipProfile;
+        public string SslSshProfile;
+        public string SpamFilterProfile;
     }
 }
